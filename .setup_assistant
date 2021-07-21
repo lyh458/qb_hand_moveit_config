@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: qb_hand_description
+    relative_path: urdf/qbhand.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/qbhand.srdf
+  CONFIG:
+    author_name: Yihui Li
+    author_email: liyihui.ing@gmail.com
+    generated_timestamp: 1626769816
