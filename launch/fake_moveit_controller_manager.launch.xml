@@ -6,6 +6,10 @@
   <!-- Set the param that trajectory_execution_manager needs to find the controller plugin -->
   <param name="moveit_controller_manager" value="moveit_fake_controller_manager/MoveItFakeControllerManager"/>
 
+  <!-- unused args -->
+  <arg name="device_name" default="qb_hand" doc="The unique device name used in the yaml controller configurations (also in the urdf if not already specified there)."/>
+  <arg name="robot_namespace" default="$(arg device_name)" doc="The unique robot namespace."/>
+
   <!-- The rest of the params are specific to this plugin -->
   <rosparam subst_value="true" file="$(find qb_hand_moveit_config)/config/fake_controllers.yaml"/>
 
