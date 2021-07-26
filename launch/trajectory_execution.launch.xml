@@ -4,6 +4,10 @@
 
   <arg name="execution_type" default="interpolate" /> <!-- unused arg -->
 
+  <arg name="device_name" default="qbhand" doc="The unique device name used in the yaml controller configurations (also in the urdf if not already specified there)."/>
+
+  <arg name="robot_namespace" default="$(arg device_name)" doc="The unique robot namespace."/>
+
   <!-- Flag indicating whether MoveIt! is allowed to load/unload  or switch controllers -->
   <arg name="moveit_manage_controllers" default="true"/>
   <param name="moveit_manage_controllers" value="$(arg moveit_manage_controllers)"/>
@@ -19,6 +23,8 @@
   <arg name="moveit_controller_manager" default="qbhand" />
   <include file="$(find qb_hand_moveit_config)/launch/$(arg moveit_controller_manager)_moveit_controller_manager.launch.xml">
     <!-- <arg name="execution_type" value="$(arg execution_type)" /> -->
+    <arg name="device_name" value="$(arg device_name)"/>
+    <arg name="robot_namespace" value="$(arg robot_namespace)"/>
   </include>
 
 </launch>

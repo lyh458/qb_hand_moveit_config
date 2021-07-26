@@ -33,10 +33,13 @@
     <!-- The unique robot name -->
     <arg name="robot_name" default="qbhand" doc="The unique robot name." />
 
-    <arg name="device_name" default="qbhand" doc="The unique device name used in the yaml controller configurations (also in the urdf if not already specified there)." />
+    <!-- FIXME: hardcode, in order to ensure that the joint name `$(arg device_name)_synergy_joint` is same as some files in MoveIt!, -->
+    <!-- which use a lot of hardcode (`device_name` is fixed as qbhand, such as qbhand_base_link) -->
+    <arg name="device_name" value="qbhand" doc="The unique device name used in the yaml controller configurations (also in the urdf if not already specified there)." />
 
     <arg name="robot_package" default="qb_hand" doc="The base package name prefix for the robot configurations [urdf, rviz, ...]."/>
 
+    <arg name="robot_namespace" default="$(arg device_name)" doc="The unique robot namespace."/>
 
     <arg name="source_list" default="[control/joint_states]" doc="The joint_states source list for the joint_state_publisher."/>
 
@@ -51,12 +54,13 @@
     <!-- If needed, broadcast static tf for robot root -->
 
     <!-- Bringup qbhand driver -->
-    <include file="$(find qb_hand_moveit_config)/launch/qbhand_bringup.launch" unless="$(arg sim)">
+    <include file="$(find qb_hand_moveit_config)/launch/qbhand_bringup/qbhand_bringup.launch" unless="$(arg sim)">
         <arg name="device_name" value="$(arg device_name)" />
+        <arg name="robot_namespace" value="$(arg robot_namespace)" />
     </include>
 
     <!-- Working with the real robot.  -->
-    <group ns="$(arg robot_name)" unless="$(arg sim)">
+    <group ns="$(arg robot_namespace)" unless="$(arg sim)">
 
         <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" unless="$(arg use_gui)">
             <rosparam param="source_list" subst_value="true">$(arg source_list)</rosparam>
@@ -70,7 +74,6 @@
             <!-- <param name="source_list" value="$(arg source_list)" /> -->
             <param name="rate" value="$(arg frequency)" />
         </node>
-
 
         <!-- Given the published joint states, publish tf for the robot links -->
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
@@ -97,6 +100,8 @@
             <arg name="debug" value="$(arg debug)"/>
             <arg name="pipeline" value="$(arg pipeline)"/>
             <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+            <arg name="device_name" value="$(arg device_name)"/>
+            <arg name="robot_namespace" value="$(arg robot_namespace)"/>
         </include>
 
         <!-- Run Rviz and load the default config to see the state of the move_group node -->

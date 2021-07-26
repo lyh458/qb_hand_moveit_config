@@ -9,17 +9,18 @@ generic_hw_control_loop:
 # Settings for ros_control hardware interface
 hardware_interface:
   joints:
-    - qbhand_synergy_joint
+    - $(arg device_name)_synergy_joint
   sim_control_mode: 1  # 0: position, 1: velocity
 # Publish all joint states
 # Creates the /joint_states topic necessary in ROS
-joint_state_controller:
+# joint_state_controller:
+$(arg device_name)_joint_state_controller:
   type: joint_state_controller/JointStateController
-  publish_rate: 50
+  publish_rate: 100
 controller_list:
-  - name: /qbhand/control/qbhand_synergy_trajectory_controller
+  - name: /$(arg robot_namespace)/control/$(arg device_name)_synergy_trajectory_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: true
     joints:
-      - qbhand_synergy_joint
+      - $(arg device_name)_synergy_joint

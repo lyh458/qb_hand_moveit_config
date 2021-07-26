@@ -5,8 +5,13 @@
   <!-- The name of the parameter under which the URDF is loaded -->
   <arg name="robot_description" default="robot_description"/>
 
+  <arg name="device_name" default="qbhand" doc="The unique device name used in the urdf configurations (if not specified directly in the urdf)."/>
+
   <!-- Load universal robot description format (URDF) -->
-  <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="xacro  '$(find qb_hand_description)/urdf/qbhand.urdf.xacro'"/>
+  <!-- <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="xacro  '$(find qb_hand_description)/urdf/qbhand.urdf.xacro'"/> -->
+
+  <param if="$(arg load_robot_description)" name="$(arg robot_description)"
+         command="$(eval 'xacro ' + find('qb_hand_description') + '/urdf/qbhand.urdf.xacro namespace:=' + device_name)"/>
 
   <!-- The semantic description that corresponds to the URDF -->
   <param name="$(arg robot_description)_semantic" textfile="$(find qb_hand_moveit_config)/config/qbhand.srdf" />

@@ -29,9 +29,10 @@
 
   <include file="$(find qb_device_driver)/launch/communication_handler.launch" if="$(arg standalone)"/>
 
-  <include file="$(find qb_device_bringup)/launch/device_bringup.launch" pass_all_args="true"/>
+  <include file="$(find qb_hand_moveit_config)/launch/qbhand_bringup/device_bringup.launch" pass_all_args="true"/>
 
   <group ns="$(arg robot_namespace)">
+    <!-- start the control node -->
     <include file="$(find qb_device_bringup)/launch/robot_control_node_bringup.launch">
       <arg name="control_duration" value="$(arg control_duration)"/>
       <arg name="robot_hardware" value="$(arg robot_hardware)"/>
