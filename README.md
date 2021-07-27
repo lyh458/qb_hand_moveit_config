@@ -9,13 +9,13 @@ The MoveIt! config package of [QB SOFTHAND RESEARCH](https://qbrobotics.com/prod
 - bringup qbhand
 
 ```bash
-roslaunch qb_hand_control control.launch standalone:=true activate_on_initialization:=true device_name:=qbhand
+roslaunch qb_hand_control control.launch standalone:=true activate_on_initialization:=true device_name:=qbhand robot_namespace:=qbhand
 ```
 
 - controlled with Moveit!
 
 ```bash
-roslaunch qb_hand_moveit_config moveit_planning_execution.launch
+roslaunch qb_hand_moveit_config moveit_planning_execution.launch robot_namespace:=qbhand
 ```
 
 **Visualization in RVIZ without gazebo:**
