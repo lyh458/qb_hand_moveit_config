@@ -30,7 +30,7 @@
     <!-- Choose whether or not to use rviz -->
     <arg name="use_rviz" default="true" />
 
-    <!-- The unique robot name -->
+    <!-- The unique robot namespace -->
     <arg name="robot_namespace" default="qbhand"/>
 
     <!-- If needed, broadcast static tf for robot root -->
