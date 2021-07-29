@@ -62,26 +62,12 @@
     <!-- Working with the real robot.  -->
     <group ns="$(arg robot_namespace)" unless="$(arg sim)">
 
-        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" unless="$(arg use_gui)">
-            <rosparam param="source_list" subst_value="true">$(arg source_list)</rosparam>
-            <!-- <rosparam param="source_list">$(arg source_list)</rosparam> -->
-            <param name="rate" value="$(arg frequency)" />
-        </node>
-
-        <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" if="$(arg use_gui)">
-            <rosparam param="source_list" subst_value="true">$(arg source_list)</rosparam>
-            <!-- <rosparam param="source_list">$(arg source_list)</rosparam> -->
-            <!-- <param name="source_list" value="$(arg source_list)" /> -->
-            <param name="rate" value="$(arg frequency)" />
-        </node>
+        <!-- node `robot_state_publisher` and `move_group` subscribe topic `/joint_states`, but actually we have `control/joint_states` -->
+        <remap from="joint_states" to="control/joint_states"/>
 
         <!-- Given the published joint states, publish tf for the robot links -->
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
-            <rosparam param="source_list" subst_value="true">$(arg source_list)</rosparam>
-            <!-- <rosparam param="source_list">$(arg source_list)</rosparam> -->
-            <remap from="/joint_states" to="joint_states" />
-        </node>
-
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+ 
         <!-- set up control addons (gui, waypoint, ...) -->
         <include file="$(find qb_device_bringup)/launch/robot_opt_bringup.launch">
           <arg name="robot_name" value="$(arg robot_name)"/>
