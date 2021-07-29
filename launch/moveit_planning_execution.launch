@@ -66,7 +66,9 @@
         <remap from="joint_states" to="control/joint_states"/>
 
         <!-- Given the published joint states, publish tf for the robot links -->
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" >
+            <param name="publish_frequency" value="$(arg frequency)"/>
+        </node>
  
         <!-- set up control addons (gui, waypoint, ...) -->
         <include file="$(find qb_device_bringup)/launch/robot_opt_bringup.launch">
